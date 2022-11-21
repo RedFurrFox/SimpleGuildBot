@@ -3,14 +3,13 @@ try:
 	import os
 	import yaml
 	import random
-	import colorama
 	import guilded.embed
 	from guilded.ext import commands
 except:
 	os.system("pip install pyyaml")
 	os.system("pip install colorama")
 	os.system("pip install guilded.py")
-
+import colorama
 
 # Colors
 class color:
