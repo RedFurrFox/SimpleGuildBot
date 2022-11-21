@@ -91,7 +91,7 @@ async def b(ctx):
 @bot.command()
 async def source(ctx):
 	print(f"   {pointer.c} Source command triggered")
-	await ctx.send(embed=guilded.Embed(title="Source Code", url="https://replit.com/@RedFurrFox/SimpleGuildBot",
+	await ctx.send(embed=guilded.Embed(title="Source Code", url="https://github.com/RedFurrFox/SimpleGuildBot",
 	                                   description=f'Bot script is being maintained by RedFurrFox', color=embed_color))
 
 
