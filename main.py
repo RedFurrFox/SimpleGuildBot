@@ -11,6 +11,7 @@ except:
 	os.system("pip install guilded.py")
 import colorama
 
+
 # Colors
 class color:
 	r = colorama.Fore.RED
@@ -47,6 +48,7 @@ with open("Settings/settings.yaml", "r") as file:
 	embed_color = reader["Required"]["Embed_Color"]
 	topic_template = reader["Templates"]["Topic"]
 	b_template = reader["Templates"]["8ball"]
+
 
 # Prefix Initiator
 bot = commands.Bot(command_prefix=prefix)
