@@ -1,26 +1,26 @@
 # Modules
 try:
-	import os
-	import yaml
-	import random
-	import guilded.embed
-	from guilded.ext import commands
+  import os
+  import yaml
+  import random
+  import guilded.embed
+  from guilded.ext import commands
 except:
-	os.system("pip install pyyaml")
-	os.system("pip install colorama")
-	os.system("pip install guilded.py")
+  os.system("pip install pyyaml")
+  os.system("pip install colorama")
+  os.system("pip install guilded.py")
 import colorama
 
 
 # Colors
 class color:
-	r = colorama.Fore.RED
-	y = colorama.Fore.LIGHTYELLOW_EX
-	g = colorama.Fore.LIGHTGREEN_EX
-	b = colorama.Fore.LIGHTBLUE_EX
-	c = colorama.Fore.LIGHTCYAN_EX
-	m = colorama.Fore.LIGHTMAGENTA_EX
-	x = colorama.Fore.RESET
+  r = colorama.Fore.RED
+  y = colorama.Fore.LIGHTYELLOW_EX
+  g = colorama.Fore.LIGHTGREEN_EX
+  b = colorama.Fore.LIGHTBLUE_EX
+  c = colorama.Fore.LIGHTCYAN_EX
+  m = colorama.Fore.LIGHTMAGENTA_EX
+  x = colorama.Fore.RESET
 
 
 # Script Banner
@@ -35,20 +35,20 @@ print(f"""
 
 # Pointer
 class pointer:
-	a = f"{color.y}[{color.g}+{color.y}]{color.x}"
-	b = f"{color.y}[{color.r}-{color.y}]{color.x}"
-	c = f"{color.y}[{color.c}>{color.y}]{color.x}"
+  a = f"{color.y}[{color.g}+{color.y}]{color.x}"
+  b = f"{color.y}[{color.r}-{color.y}]{color.x}"
+  c = f"{color.y}[{color.c}>{color.y}]{color.x}"
+  d = f"{color.y}[{color.m}={color.y}]{color.x}"
 
 
 # Settings Reader
 with open("Settings/settings.yaml", "r") as file:
-	reader = yaml.safe_load(file)
-	token = reader["Required"]["Bot_Token"]
-	prefix = reader["Required"]["Default_prefix"]
-	embed_color = reader["Required"]["Embed_Color"]
-	topic_template = reader["Templates"]["Topic"]
-	b_template = reader["Templates"]["8ball"]
-
+  reader = yaml.safe_load(file)
+  token = reader["Required"]["Bot_Token"]
+  prefix = reader["Required"]["Default_prefix"]
+  embed_color = reader["Required"]["Embed_Color"]
+  topic_template = reader["Templates"]["Topic"]
+  b_template = reader["Templates"]["8ball"]
 
 # Prefix Initiator
 bot = commands.Bot(command_prefix=prefix)
@@ -57,50 +57,70 @@ bot = commands.Bot(command_prefix=prefix)
 # Notifier
 @bot.event
 async def on_ready():
-	print(f"{pointer.a} The Bot Is Ready!")
+  print(f"{pointer.a} The Bot Is Ready!")
 
 
 @bot.event
 async def on_disconnect():
-	print(f"{pointer.b} The Bot Is Offline!")
+  print(f"{pointer.b} The Bot Is Offline!")
 
 
 # Commands
+
 @bot.command()
 async def h(ctx):
-	print(f"   {pointer.c} Help command triggered")
-	await ctx.send(embed=guilded.Embed(title="Help Page",
-	                                   description=f"Prefix = {prefix}\n\nHere's my bot commands:\n{prefix}h - show this help command\n{prefix}ping - ping the server where this bot currently run\n{prefix}topic - generate a random topic\n{prefix}b - short for 8ball\n{prefix}source - shows the source code for this bot",
-	                                   color=embed_color))
+  print(f"   {pointer.c} Help command triggered")
+  await ctx.send(embed=guilded.Embed(
+    title="Help Page",
+    description=
+    f"Prefix = {prefix}\n\nHere's my bot commands:\n{prefix}h - show this help command\n{prefix}ping - ping the server where this bot currently run\n{prefix}topic - generate a random topic\n{prefix}b - short for 8ball\n{prefix}source - shows the source code for this bot",
+    color=embed_color))
 
 
 @bot.command()
 async def ping(ctx):
-	print(f"   {pointer.c} Ping command triggered")
-	await ctx.send(embed=guilded.Embed(title="Ping Command", description=f"Pong! at {round(bot.latency * 1000)}ms",
-	                                   color=embed_color))
+  print(f"   {pointer.c} Ping command triggered")
+  data = f"{round(bot.latency * 1000)}ms"
+  print(f'      {pointer.d} Data: "{data}"')
+  await ctx.send(
+    embed=guilded.Embed(title="Ping Command",
+                        description=f"Pong! at {data}",
+                        color=embed_color))
+  del(data)
 
 
 @bot.command()
 async def topic(ctx):
-	print(f"   {pointer.c} Topic command triggered")
-	await ctx.send(
-		embed=guilded.Embed(title="Topic Command", description=random.choice(topic_template), color=embed_color))
+  print(f"   {pointer.c} Topic command triggered")
+  data = random.choice(topic_template)
+  print(f'      {pointer.d} Data: "{data}"')
+  await ctx.send(embed=guilded.Embed(title="Topic Command",
+                                     description=data,
+                                     color=embed_color))
+  del(data)
 
 
 @bot.command()
 async def b(ctx):
-	print(f"   {pointer.c} 8ball command triggered")
-	await ctx.send(embed=guilded.Embed(title="B Command", description=random.choice(b_template), color=embed_color))
+  print(f"   {pointer.c} 8ball command triggered")
+  data = random.choice(b_template)
+  print(f'      {pointer.d} Data: "{data}"')
+  await ctx.send(embed=guilded.Embed(title="B Command",
+                                     description=data,
+                                     color=embed_color))
+  del(data)
 
 
 @bot.command()
 async def source(ctx):
-	print(f"   {pointer.c} Source command triggered")
-	await ctx.send(embed=guilded.Embed(title="Source Code", url="https://github.com/RedFurrFox/SimpleGuildBot",
-	                                   description=f'Bot script is being maintained by RedFurrFox', color=embed_color))
+  print(f"   {pointer.c} Source command triggered")
+  await ctx.send(embed=guilded.Embed(
+    title="Source Code",
+    url="https://github.com/RedFurrFox/SimpleGuildBot",
+    description=f'Bot script is being maintained by RedFurrFox',
+    color=embed_color))
 
-
+  
 # Token
 bot.run(os.environ['Token'])
 # bot.run(token)
