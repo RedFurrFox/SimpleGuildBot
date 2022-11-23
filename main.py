@@ -33,6 +33,13 @@ print(f"""
 \n""")
 
 
+# Posix type
+if os.name == 'posix':
+  nav = "/"
+else:
+  nav = "\\"
+
+
 # Pointer
 class pointer:
   a = f"{color.y}[{color.g}+{color.y}]{color.x}"
@@ -42,7 +49,7 @@ class pointer:
 
 
 # Settings Reader
-with open("Settings/settings.yaml", "r") as file:
+with open(f"Settings{nav}settings.yaml", "r") as file:
   reader = yaml.safe_load(file)
   token = reader["Required"]["Bot_Token"]
   prefix = reader["Required"]["Default_prefix"]
@@ -50,6 +57,7 @@ with open("Settings/settings.yaml", "r") as file:
   topic_template = reader["Templates"]["Topic"]
   b_template = reader["Templates"]["8ball"]
 
+  
 # Prefix Initiator
 bot = commands.Bot(command_prefix=prefix)
 
@@ -66,7 +74,6 @@ async def on_disconnect():
 
 
 # Commands
-
 @bot.command()
 async def h(ctx):
   print(f"   {pointer.c} Help command triggered")
