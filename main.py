@@ -76,7 +76,7 @@ async def on_disconnect():
 # Commands
 @bot.command()
 async def h(ctx):
-  print(f"   {pointer.c} Help command triggered")
+  print(f"   {pointer.c} Help command triggered.")
   await ctx.send(embed=guilded.Embed(
     title="Help Page",
     description=
@@ -86,7 +86,7 @@ async def h(ctx):
 
 @bot.command()
 async def ping(ctx):
-  print(f"   {pointer.c} Ping command triggered")
+  print(f"   {pointer.c} Ping command triggered.")
   data = f"{round(bot.latency * 1000)}ms"
   print(f'      {pointer.d} Data: "{data}"')
   await ctx.send(
@@ -98,10 +98,10 @@ async def ping(ctx):
 
 @bot.command()
 async def topic(ctx):
-  print(f"   {pointer.c} Topic command triggered")
+  print(f"   {pointer.c} Topic command triggered.")
   data = random.choice(topic_template)
   print(f'      {pointer.d} Data: "{data}"')
-  await ctx.send(embed=guilded.Embed(title="Topic Command",
+  await ctx.send(embed=guilded.Embed(title="Conversation Starter Command",
                                      description=data,
                                      color=embed_color))
   del(data)
@@ -109,10 +109,10 @@ async def topic(ctx):
 
 @bot.command()
 async def b(ctx):
-  print(f"   {pointer.c} 8ball command triggered")
+  print(f"   {pointer.c} 8ball command triggered.")
   data = random.choice(b_template)
   print(f'      {pointer.d} Data: "{data}"')
-  await ctx.send(embed=guilded.Embed(title="B Command",
+  await ctx.send(embed=guilded.Embed(title="8Ball Command",
                                      description=data,
                                      color=embed_color))
   del(data)
@@ -120,7 +120,7 @@ async def b(ctx):
 
 @bot.command()
 async def source(ctx):
-  print(f"   {pointer.c} Source command triggered")
+  print(f"   {pointer.c} Source command triggered.")
   await ctx.send(embed=guilded.Embed(
     title="Source Code",
     url="https://github.com/RedFurrFox/SimpleGuildBot",
@@ -129,5 +129,11 @@ async def source(ctx):
 
   
 # Token
-bot.run(os.environ['Token'])
-# bot.run(token)
+try:
+  if token == "":
+    print(f"{pointer.b} No token found! Trying secrets.")
+    bot.run(os.environ['Token'])
+  else:
+    bot.run(token)
+except Exception as error:
+  exit(f"{pointer.b} WARNING: Unexpected Error Encountered!\n{error}\n\n")
