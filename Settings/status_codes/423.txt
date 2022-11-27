@@ -1,0 +1,3 @@
+Response 423 - Locked (WebDAV) [Client Error Response]
+```The resource that is being accessed is locked.
+```

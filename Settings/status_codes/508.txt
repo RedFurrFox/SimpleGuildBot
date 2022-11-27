@@ -1,0 +1,3 @@
+Response 508 - Loop Detected (WebDAV) [Server Error Response]
+```The server detected an infinite loop while processing the request.
+```

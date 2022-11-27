@@ -1,0 +1,3 @@
+Response 411 - Length Required [Client Error Response]
+```Server rejected the request because the Content-Length header field is not defined and the server requires it.
+```

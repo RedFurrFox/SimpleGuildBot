@@ -1,0 +1,3 @@
+Response 205 - Reset Content [Successful Response]
+```Tells the user-agent to reset the document which sent this request.
+```

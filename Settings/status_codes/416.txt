@@ -1,0 +1,3 @@
+Response 416 - Range Not Satisfiable [Client Error Response]
+```The range specified by the Range header field in the request can't be fulfilled; it's possible that the range is outside the size of the target URI's data.
+```

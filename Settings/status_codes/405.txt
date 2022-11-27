@@ -1,0 +1,3 @@
+Response 405 - Method Not Allowed [Client Error Response]
+```The request method is known by the server but is not supported by the target resource. For example, an API may forbid DELETE-ing a resource.
+```

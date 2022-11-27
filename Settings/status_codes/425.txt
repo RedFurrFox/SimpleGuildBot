@@ -1,0 +1,3 @@
+Response 425 - Too Early [Client Error Response]
+```Indicates that the server is unwilling to risk processing a request that might be replayed.
+```

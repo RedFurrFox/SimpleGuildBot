@@ -1,0 +1,3 @@
+Response 207 - Multi-Status (WebDAV) [Successful Response]
+```Conveys information about multiple resources, for situations where multiple status codes might be appropriate.
+```

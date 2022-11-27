@@ -1,0 +1,3 @@
+Response 400 - Bad Request [Client Error Response]
+```The server could not understand the request due to invalid syntax.
+```

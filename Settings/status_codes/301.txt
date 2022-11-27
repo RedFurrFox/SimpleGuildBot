@@ -1,0 +1,3 @@
+Response 301 - Moved Permanently [Redirection Message]
+```The URL of the requested resource has been changed permanently. The new URL is given in the response.
+```
