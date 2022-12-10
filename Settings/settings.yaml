@@ -7,10 +7,10 @@ Required:
 
 
 Security:
-  Mod_channel: "132a37a0-c3cc-420d-ac5b-8b89590ecdb9"
+  Mod_channel: ""
 
   Join_ban:
-    - dl3Lx8B4
+    - ""
 
   Join_kick:
     - ""
