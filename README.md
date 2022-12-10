@@ -3,7 +3,7 @@ Open source bot for our personalized server at guilded
 
 ## How to use?
 - Clone this repo by typing: `git clone https://github.com/RedFurrFox/SimpleGuildBot.git`.
-- Open this file then go to: `"Settings/settings.yaml"` and add your bot api in it.
+- Open this file then go to: `"Settings/settings.yaml"` and add your guilded bot and virustotal api in it.
 - run this file by running: `python main.py`.
 
 ## Statistics:
