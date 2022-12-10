@@ -1,8 +1,19 @@
 Required:
-  Bot_Token: ""
+  GuildedBot_API_Token: ""
+  VirusTotal_API_Token: ""
   Default_prefix: ";"
   Embed_Color: 0x02FA0F
-  Timezone: "American/New_York"
+  Timezone: American/New_York
+
+
+Security:
+  Mod_channel: "132a37a0-c3cc-420d-ac5b-8b89590ecdb9"
+
+  Join_ban:
+    - dl3Lx8B4
+
+  Join_kick:
+    - ""
 
 
 Templates:
@@ -70,23 +81,23 @@ Templates:
     - What talent would you show off in a talent show?
     - Will you rather take a risk even your life depends on it?
     - What’s the best part of your day so far?
-    - Working on anything exciting at the moment?
+    - Working on anything exciting at the moment? 
     - What do you have planned this weekend?
     - You won’t believe what just happened!
-    - How would you describe yourself in 3 words?
-    - Would you choose a road trip or a resort vacation?
-    - What food are you craving right now?
-    - Unlimited money or unlimited time?
-    - What motivates you?
+    - How would you describe yourself in 3 words? 
+    - Would you choose a road trip or a resort vacation? 
+    - What food are you craving right now? 
+    - Unlimited money or unlimited time? 
+    - What motivates you? 
     - What’s your astrological sign?
     - Who is your biggest role model?
-    - What was your first concert?
+    - What was your first concert? 
     - What are your top 5 bucket list activities?
     - What is something people do that drives you nuts?
     - What was your dream job as a kid?
     - What’s the most exciting thing you’ve read recently?
     - What do you love and hate about technology?
-    - If you could time travel, what era would you revisit?
+    - If you could time travel, what era would you revisit? 
     - What is something trendy that annoys you?
 
   8ball:
