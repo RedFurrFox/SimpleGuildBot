@@ -11,4 +11,5 @@ Open source bot for our personalized server at guilded
 
 ![Forks](https://img.shields.io/github/forks/RedFurrFox/SimpleGuildBot?style=social)
 ![Stargazers](https://img.shields.io/github/stars/RedFurrFox/SimpleGuildBot?style=social)
+![Last_Commit](https://img.shields.io/github/last-commit/RedFurrFox/SimpleGuildBot?style=social)
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=[RedFurrFox].SimpleGuildBot)
