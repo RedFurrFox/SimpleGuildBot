@@ -102,6 +102,7 @@ def terminal_cleaner():
 Token_for_guilded_in_use = ""
 Token_for_virustotal_in_use = ""
 VirToken = ""
+Is_VTToken_found = ""
 
 
 # Script Banner
@@ -236,40 +237,44 @@ async def code(ctx, *, status_code):
 
 @bot.command(name="urlscan", aliases=["scan", "check", "inspect"])
 async def scan(ctx, *, url):
-  log_handler(space_T="a", pointer_T="c", message="Scan command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'Data: "{url}"')
-  for val in url:
-    if val == "[":
-      await ctx.send(embed=guilded.Embed(title="Scan Command (Tip)", description=f"Invalid link format! Try typing your link without website protocol(i.e.: http and https or www) to make it valid.", color=embed_color))
-      pass
-  with virustotal_python.Virustotal(API_KEY=VirToken) as vtotal:
-    try:
-        resp = vtotal.request("urls", data={"url": url}, method="POST")
-        # Safe encode URL in base64 format
-        # https://developers.virustotal.com/reference/url
-        url_id = urlsafe_b64encode(url.encode()).decode().strip("=")
-        report = vtotal.request(f"urls/{url_id}")
-        # print(json.dumps(report.data, indent=2))
-        dumpjson = json.dumps(report.data, indent=2)
-        readjson = json.loads(dumpjson)
-        # json scan info parser type: rescan
-        total_votes_harmless = readjson["attributes"]["total_votes"]["harmless"]
-        total_votes_malicious = readjson["attributes"]["total_votes"]["malicious"]
-        threat_names = readjson["attributes"]["threat_names"]
-        reputation = readjson["attributes"]["reputation"]
-        title = readjson["attributes"]["title"]
-        last_analysis_harmless = readjson["attributes"]["last_analysis_stats"]["harmless"]
-        last_analysis_malicious = readjson["attributes"]["last_analysis_stats"]["malicious"]
-        last_analysis_suspicious = readjson["attributes"]["last_analysis_stats"]["suspicious"]
-        last_analysis_undetected = readjson["attributes"]["last_analysis_stats"]["undetected"]
-        scan_type = readjson["type"]
-        scan_id = readjson["id"]
-        scan_link = readjson["links"]["self"]
-        # print(dumpjson+"\n\n\n")
-        await ctx.send(embed=guilded.Embed(title="Scan Command", description=f'Url target scan: "{url} :: {title}"\n\nTotal votes: \n - harmless: {total_votes_harmless}\n - malicious: {total_votes_malicious}\n\nReputation: {reputation}\n\nThreat names:\n - {threat_names}\n\nScan-harmless: {last_analysis_harmless}\nScan-malicious: {last_analysis_malicious}\nScan-suspicious: {last_analysis_suspicious}\nScan-undetected: {last_analysis_undetected}\n\nScan Type: {scan_type}\nScan ID:\n - {scan_id}\nScan Link:\n - {scan_link}', color=embed_color))
-    except virustotal_python.VirustotalError as err:
-        await ctx.send(embed=guilded.Embed(title="Scan Command", description=f"Failed to send URL: {url} for analysis and get the report: {err}", color=embed_color))
-
+  if Is_VTToken_found == "Yes":
+    log_handler(space_T="a", pointer_T="c", message="Scan command triggered.")
+    log_handler(space_T="b", pointer_T="d", message=f'Data: "{url}"')
+    for val in url:
+      if val == "[":
+        await ctx.send(embed=guilded.Embed(title="Scan Command (Tip)", description=f"Invalid link format! Try typing your link without website protocol(i.e.: http and https or www) to make it valid.", color=embed_color))
+        pass
+    with virustotal_python.Virustotal(API_KEY=VirToken) as vtotal:
+      try:
+          resp = vtotal.request("urls", data={"url": url}, method="POST")
+          # Safe encode URL in base64 format
+          # https://developers.virustotal.com/reference/url
+          url_id = urlsafe_b64encode(url.encode()).decode().strip("=")
+          report = vtotal.request(f"urls/{url_id}")
+          # print(json.dumps(report.data, indent=2))
+          dumpjson = json.dumps(report.data, indent=2)
+          readjson = json.loads(dumpjson)
+          # json scan info parser type: rescan
+          total_votes_harmless = readjson["attributes"]["total_votes"]["harmless"]
+          total_votes_malicious = readjson["attributes"]["total_votes"]["malicious"]
+          threat_names = readjson["attributes"]["threat_names"]
+          reputation = readjson["attributes"]["reputation"]
+          title = readjson["attributes"]["title"]
+          last_analysis_harmless = readjson["attributes"]["last_analysis_stats"]["harmless"]
+          last_analysis_malicious = readjson["attributes"]["last_analysis_stats"]["malicious"]
+          last_analysis_suspicious = readjson["attributes"]["last_analysis_stats"]["suspicious"]
+          last_analysis_undetected = readjson["attributes"]["last_analysis_stats"]["undetected"]
+          scan_type = readjson["type"]
+          scan_id = readjson["id"]
+          scan_link = readjson["links"]["self"]
+          # print(dumpjson+"\n\n\n")
+          await ctx.send(embed=guilded.Embed(title="Scan Command", description=f'Url target scan: "{url} :: {title}"\n\nTotal votes: \n - harmless: {total_votes_harmless}\n - malicious: {total_votes_malicious}\n\nReputation: {reputation}\n\nThreat names:\n - {threat_names}\n\nScan-harmless: {last_analysis_harmless}\nScan-malicious: {last_analysis_malicious}\nScan-suspicious: {last_analysis_suspicious}\nScan-undetected: {last_analysis_undetected}\n\nScan Type: {scan_type}\nScan ID:\n - {scan_id}\nScan Link:\n - {scan_link}', color=embed_color))
+      except virustotal_python.VirustotalError as err:
+          await ctx.send(embed=guilded.Embed(title="Scan Command", description=f"Failed to send URL: {url} for analysis and get the report: {err}", color=embed_color))
+  else:
+    log_handler(space_T="a", pointer_T="c", message="Scan command triggered but not processed.")
+    log_handler(space_T="b", pointer_T="d", message=f'Data: "{url}"')
+    await ctx.send(embed=guilded.Embed(title="Scan Command (Tip)", description=f"This command is not yet configured. Error:VTAPI-Not-Found", color=embed_color))
 
 @bot.command(name="source", aliases=["s", "sourcecode"])
 async def source(ctx):
@@ -288,14 +293,22 @@ try:
   if virustotal_token == "":
     log_handler(space_T="a", pointer_T="b", message='No virustotal token found in settings! Trying secrets named "VTToken".')
     Token_for_virustotal_in_use = "Secrets"
-    VirToken = os.environ['VTToken']
+    if os.environ['VTToken']:
+      log_handler(space_T="b", pointer_T="c", message="VTToken found!")
+      VirToken = os.environ['VTToken']
+      Is_VTToken_found = "Yes"
+    else:
+      log_handler(space_T="b", pointer_T="c", message="VTToken Not Found! Disabling link scan feature.")
+      Is_VTToken_found = "No"
   else:
     Token_for_virustotal_in_use = "Settings"
     VirToken = virustotal_token
   if guilded_token == "":
     log_handler(space_T="a", pointer_T="b", message='No guilded token found in settings! Trying secrets named "GToken".')
-    Token_for_guilded_in_use = "Secrets"
-    bot.run(os.environ['GToken'])
+    if os.environ['GToken']:
+      log_handler(space_T="b", pointer_T="c", message="GToken found!")
+      Token_for_guilded_in_use = "Secrets"
+      bot.run(os.environ['GToken'])
   else:
     Token_for_guilded_in_use = "Settings"
     bot.run(guilded_token)
