@@ -5,7 +5,7 @@ Open source bot for our personalized server at guilded
 - Prekick and preban users
 - Scan suspicious links w/ virustotal api
 - Some simple games/conversation starters
-- On-terminal logs (for now)
+- On-terminal-logging (for now)
 
 ## How to use?
 - Clone this repo by typing: `git clone https://github.com/RedFurrFox/SimpleGuildBot.git`.
