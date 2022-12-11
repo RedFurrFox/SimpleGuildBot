@@ -7,9 +7,8 @@ try:
   import colorama
   import guilded.embed
   import virustotal_python
-  from pprint import pprint
-  from base64 import urlsafe_b64encode
   from guilded.ext import commands
+  from base64 import urlsafe_b64encode
 except:
   # Auto-install required modules
   os.system("pip install pyyaml")
@@ -19,8 +18,9 @@ except:
   # Recalling modules for new installed modules
   import yaml
   import colorama
-  import guilded.embed, guilded.ext
   import virustotal_python
+  from guilded.ext import commands
+  import guilded.embed, guilded.ext
 
 
 # Color Types
@@ -43,12 +43,19 @@ class pointer:
   e = f"{color.y}[{color.b}:{color.y}]{color.x}"
 
 
-# Space Types
+# Space/Tab Types
 class space:
   a = "   "
   b = "      "
 
 
+# Posix type
+if os.name == 'posix':
+  nav = "/"
+else:
+  nav = "\\"
+
+  
 # Spacer
 def line():
   print(color.g)
@@ -66,7 +73,6 @@ def log_handler(space_T, pointer_T, message):
     space_T = ""
   else:
     exit("Invalid data for func. log_handler/space_T")
-
   if pointer_T == "a":
     pointer_T = pointer.a
   elif pointer_T == "b":
@@ -81,16 +87,16 @@ def log_handler(space_T, pointer_T, message):
     pointer_T = ""
   else:
     exit("Invalid data for func. log_handler/pointer_T")
-
   print(f'''{(space_T)}{pointer_T} {message}''')
 
-  
-# Posix type
-if os.name == 'posix':
-  nav = "/"
-else:
-  nav = "\\"
 
+# Terminal cleaner
+def terminal_cleaner():
+  if os.name == "posix":
+    os.system("clear")
+  else:
+    os.name("cls")
+  
   
 # Definition configs
 Token_for_guilded_in_use = ""
@@ -99,6 +105,7 @@ VirToken = ""
 
 
 # Script Banner
+terminal_cleaner()
 print(f"""
 \t  {color.r}___  {color.b}_               _        {color.y}___        {color.g}_  _     _  {color.c}___       {color.g}_   
 \t {color.r}/ __|{color.b}(_) _ __   _ __ | | ___  {color.y}/ __| {color.g}_  _ (_)| | __| |{color.c}| _ ) {color.g}___ | |_ 
@@ -122,20 +129,23 @@ with open(f"Settings{nav}settings.yaml", "r") as file:
 
   
 # Prefix Initiator
-bot = commands.Bot(commands.when_mentioned_or(prefix),
-                   case_insensitive=True,
-                   help_command=None)
+bot = commands.Bot(commands.when_mentioned_or(prefix), case_insensitive=True, help_command=None)
 
 
 # Events
 @bot.event
 async def on_ready():
-  log_handler(space_T="a", pointer_T="a", message="The Bot Is Ready!")
-  log_handler(space_T="b", pointer_T="d", message=f'VirusTotal token path in use: "{Token_for_virustotal_in_use}".')
-  log_handler(space_T="b", pointer_T="d", message=f'Guilded token path in use: "{Token_for_guilded_in_use}".')
-  log_handler(space_T="b", pointer_T="d", message=f'SimpleGuildBot is currently running on "{bot.user.name} :: {bot.user.id}".')
-  line()
-  log_handler(space_T="x", pointer_T="e", message="Bot Data Logs:")
+  cache_1 = 1   # Avoid info printing repitation when bot went offline then go online
+  log_handler(space_T="a", pointer_T="a", message="The Bot Is Online!")
+  if cache_1 == 1:
+    cache_1 = cache_1 + 1
+    log_handler(space_T="b", pointer_T="d", message=f'VirusTotal token path in use: "{Token_for_virustotal_in_use}".')
+    log_handler(space_T="b", pointer_T="d", message=f'Guilded token path in use: "{Token_for_guilded_in_use}".')
+    log_handler(space_T="b", pointer_T="d", message=f'SimpleGuildBot is currently running on "{bot.user.name} :: {bot.user.id}".')
+    line()
+    log_handler(space_T="x", pointer_T="e", message="Bot Data Logs:")
+  else:
+    pass
 
 
 @bot.event
@@ -172,7 +182,7 @@ async def help(ctx):
 async def ping(ctx):
   data = f"{round(bot.latency * 1000)}ms"
   log_handler(space_T="a", pointer_T="c", message="Ping command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{data}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{data}"')
   await ctx.send(embed=guilded.Embed(title="Ping Command", description=f"Pong! at {data}", color=embed_color))
   del(data)
 
@@ -181,7 +191,7 @@ async def ping(ctx):
 async def topic(ctx):
   data = random.choice(topic_template)
   log_handler(space_T="a", pointer_T="c", message="Topic command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{data}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{data}"')
   await ctx.send(embed=guilded.Embed(title="Conversation Starter Command", description=data, color=embed_color))
   del(data)
 
@@ -190,7 +200,7 @@ async def topic(ctx):
 async def b(ctx, *, guess):
   data = random.choice(b_template)
   log_handler(space_T="a", pointer_T="c", message="8ball command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{guess} :: {data}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{guess} :: {data}"')
   await ctx.send(embed=guilded.Embed(title="8Ball Command", description=data, color=embed_color))
   del(data)
 
@@ -199,7 +209,7 @@ async def b(ctx, *, guess):
 async def cointoss(ctx):
   data = random.choice['heads', 'tails']
   log_handler(space_T="a", pointer_T="c", message="Coin-toss command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{data}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{data}"')
   await ctx.send(embed=guilded.Embed(title="Coin Toss Command", description=data, color=embed_color))
   del (data)
 
@@ -207,7 +217,7 @@ async def cointoss(ctx):
 @bot.command(name="code", aliases=["statuscode", "httpcode", "responsecode"])
 async def code(ctx, *, status_code):
   log_handler(space_T="a", pointer_T="c", message="Status code command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{status_code}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{status_code}"')
   try:
     with open(os.path.join(f"Settings{nav}status_codes",
                            status_code + ".txt")) as status:
@@ -227,7 +237,7 @@ async def code(ctx, *, status_code):
 @bot.command(name="urlscan", aliases=["scan", "check", "inspect"])
 async def scan(ctx, *, url):
   log_handler(space_T="a", pointer_T="c", message="Scan command triggered.")
-  log_handler(space_T="b", pointer_T="d", message=f'{space.b}{pointer.d} Data: "{url}"')
+  log_handler(space_T="b", pointer_T="d", message=f'Data: "{url}"')
   for val in url:
     if val == "[":
       await ctx.send(embed=guilded.Embed(title="Scan Command (Tip)", description=f"Invalid link format! Try typing your link without website protocol(i.e.: http and https or www) to make it valid.", color=embed_color))
@@ -242,7 +252,7 @@ async def scan(ctx, *, url):
         # print(json.dumps(report.data, indent=2))
         dumpjson = json.dumps(report.data, indent=2)
         readjson = json.loads(dumpjson)
-        # scan parser type: rescan
+        # json scan info parser type: rescan
         total_votes_harmless = readjson["attributes"]["total_votes"]["harmless"]
         total_votes_malicious = readjson["attributes"]["total_votes"]["malicious"]
         threat_names = readjson["attributes"]["threat_names"]
@@ -274,16 +284,16 @@ async def source(ctx):
 # Token
 try:
   line()
-  print(f"{pointer.e} Start Data Logs:")
+  log_handler(space_T="x", pointer_T="e", message="Start Data Logs:")
   if virustotal_token == "":
-    print(f'{space.a}{pointer.b} No virustotal token found in settings! Trying secrets named "VTToken".')
+    log_handler(space_T="a", pointer_T="b", message='No virustotal token found in settings! Trying secrets named "VTToken".')
     Token_for_virustotal_in_use = "Secrets"
     VirToken = os.environ['VTToken']
   else:
     Token_for_virustotal_in_use = "Settings"
     VirToken = virustotal_token
   if guilded_token == "":
-    print(f'{space.a}{pointer.b} No guilded token found in settings! Trying secrets named "GToken".')
+    log_handler(space_T="a", pointer_T="b", message='No guilded token found in settings! Trying secrets named "GToken".')
     Token_for_guilded_in_use = "Secrets"
     bot.run(os.environ['GToken'])
   else:
