@@ -12,6 +12,9 @@ Open source bot for our personalized server at guilded
 - Open this file then go to: `"Settings/settings.yaml"` and add your guilded bot and virustotal api in it.
 - run this file by running: `python main.py`.
 
+## Plans:
+- Migrate from yaml to json (settings)
+
 ## Statistics:
 [![Run on Repl.it](https://replit.com/badge/github/redfurrfox/simpleguildbot)](https://replit.com/new/github/redfurrfox/simpleguildbot)
 
