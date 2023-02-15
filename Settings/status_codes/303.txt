@@ -1,3 +1,0 @@
-Response 303 - See Other [Redirection Message]
-```The server sent this response to direct the client to get the requested resource at another URI with a GET request.
-```

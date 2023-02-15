@@ -1,3 +1,0 @@
-Response 510 - Not Extended [Server Error Response]
-```Further extensions to the request are required for the server to fulfill it.
-```
