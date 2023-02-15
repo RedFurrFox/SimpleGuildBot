@@ -1,3 +1,0 @@
-Response 100 - Continue [Information Response]
-```This interim response indicates that everything so far is OK and that the client should continue the request, or ignore the response if the request is already finished.
-```

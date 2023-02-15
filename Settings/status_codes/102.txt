@@ -1,3 +1,0 @@
-Response 102 - Processing (WebDAV) [Information Response]
-```This code indicates that the server has received and is processing the request, but no response is available yet.
-```

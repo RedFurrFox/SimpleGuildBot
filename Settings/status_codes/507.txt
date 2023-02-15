@@ -1,3 +1,0 @@
-Response 507 - Insufficient Storage (WebDAV) [Server Error Response]
-```The method could not be performed on the resource because the server is unable to store the representation needed to successfully complete the request.
-```

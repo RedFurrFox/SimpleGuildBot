@@ -1,3 +1,0 @@
-Response 208 - Already Reported (WebDAV) [Successful Response]
-```Used inside a <dav:propstat> response element to avoid repeatedly enumerating the internal members of multiple bindings to the same collection.
-```

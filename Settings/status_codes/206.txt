@@ -1,3 +1,0 @@
-Response 206 - Partial Content [Successful Response]
-```This response code is used when the Range header is sent from the client to request only part of a resource.
-```

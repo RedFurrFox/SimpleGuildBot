@@ -1,3 +1,0 @@
-Response 505 - HTTP Version Not Supported [Server Error Response]
-```The HTTP version used in the request is not supported by the server.
-```
