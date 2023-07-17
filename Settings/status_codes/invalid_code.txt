@@ -1,2 +1,0 @@
-```The code given is invalid. (In some cases, a response code may come from a server that is not on the list of response codes. This means that the response code is possibly custom to the server's software and is not included on the list of response codes because it is a non-standard response code.)
-```

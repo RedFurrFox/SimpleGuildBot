@@ -1,5 +1,0 @@
-Original Author: Mozilla Foundation (https://foundation.mozilla.org/en/)
-Original Source Link: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information_responses
-License: https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt
-
-Disclaimer: This project is not in affiliation with the Mozilla Foundation.

@@ -1,3 +1,0 @@
-Response 424 - Failed Dependency (WebDAV) [Client Error Response]
-```The request failed due to failure of a previous request.
-```

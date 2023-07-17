@@ -1,3 +1,0 @@
-Response 511 - Network Authentication Required [Server Error Response]
-```The 511 status code indicates that the client needs to authenticate to gain network access.
-```

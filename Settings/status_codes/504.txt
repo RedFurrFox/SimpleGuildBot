@@ -1,3 +1,0 @@
-Response 504 - Gateway Timeout [Server Error Response]
-```This error response is given when the server is acting as a gateway and cannot get a response in time.
-```
