@@ -1,10 +1,10 @@
-import aiosqlite, asyncore, time, threading
+import aiosqlite, asyncio, time, threading
 from guilded import Color, Embed
 from guilded.ext import commands
 
 database_name = "vol_database.db"
-guilded_token = ""
-virustotal_token = ""
+guilded_token = ""   # If you are planning to use secrets (or "os.environ['']"), replace >> "" << to os.environ['']
+virustotal_token = ""  # Same goes here
 
 async def create_db():
     """
@@ -193,7 +193,7 @@ async def clear_oldest_user_id():
 
             await db.commit()
 
-        asyncore.sleep(300)
+        await asyncio.sleep(300)
 
 
 client = commands.Bot(commands.when_mentioned_or(""), case_insensitive=False, help_command=None)
@@ -205,3 +205,4 @@ def main():
 if __name__ == "__main__":
     main()
     threading.Thread(target=clear_oldest_user_id, daemon=True).start()
+    client.run(guilded_token)
