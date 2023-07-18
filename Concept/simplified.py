@@ -1,4 +1,4 @@
-import aiosqlite, asyncore
+import aiosqlite, asyncore, time, threading
 from guilded import Color, Embed
 from guilded.ext import commands
 
@@ -47,7 +47,16 @@ async def create_db():
             'name': 'global_switch',
             'columns': [
                 'id INTEGER PRIMARY KEY',
-                'help_c BOOLEAN'
+                'help_c BOOLEAN',
+                'ping_c BOOLEAN'
+            ]
+        },
+        {
+            'name': 'dialogs',
+            'columns': [
+                'id INTEGER PRIMARY KEY',
+                'dialog_type TEXT',
+                'dialog TEXT'
             ]
         }
     ]
@@ -63,8 +72,9 @@ async def create_db():
             async for row in cursor:
                 if len(row) == 0:
                     await db.execute("""INSERT OR IGNORE INTO global_switch (
-                            help_c
-                        ) VALUES (?)""", (False,))
+                            help_c,
+                            ping_c
+                        ) VALUES (?)""", (True,True))
                     await db.commit()
                 else:
                     pass
@@ -92,6 +102,27 @@ async def db_add_entry(table_name=None, **kwargs):
                 await db.execute(f'INSERT INTO {table_name} ({columns}) VALUES ({placeholders})', values)
                 await db.commit()
                 return {"status": True}
+
+
+async def db_search_table(table_name=None, column_name=None, value=None):
+    """
+    Search for an entry in the specified table.
+    :param table_name:str:
+    :param column_name:str:
+    :param value:str:
+    :return:list:
+    """
+    if table_name is None:
+        return {'status': False, 'error': 'table_name parameter is required'}
+    elif column_name is None:
+        return {'status': False, 'error': 'column_name parameter is required'}
+    elif value is None:
+        return {'status': False, 'error': 'value parameter is required'}
+    else:
+        async with aiosqlite.connect(database_name) as db:
+            cursor = await db.execute(f'SELECT * FROM {table_name} WHERE {column_name} = ?', (value,))
+            rows = await cursor.fetchall()
+            return rows
 
 
 async def db_update_entry(table_name=None, uid=None, **kwargs):
@@ -141,3 +172,36 @@ async def db_delete_entry(table_name=None, uid=None):
                 await db.execute(f'DELETE FROM {table_name} WHERE uid = ?', (uid,))
                 await db.commit()
                 return {"status": True}
+
+
+async def clear_oldest_user_id():
+    """
+    Clear the oldest user_id for every 5 minutes based on the different server_id.
+    :return:
+    """
+    while True:
+        async with aiosqlite.connect(database_name) as db:
+            cursor = await db.execute('SELECT DISTINCT server_id FROM server_join_cache')
+            rows = await cursor.fetchall()
+
+            for row in rows:
+                cursor = await db.execute(f'SELECT * FROM server_join_cache WHERE server_id = ? ORDER BY id ASC LIMIT 1', (row[0],))
+                oldest_row = await cursor.fetchone()
+
+                if oldest_row is not None:
+                    await db.execute(f'DELETE FROM server_join_cache WHERE id = ?', (oldest_row[0],))
+
+            await db.commit()
+
+        asyncore.sleep(300)
+
+
+client = commands.Bot(commands.when_mentioned_or(""), case_insensitive=False, help_command=None)
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
+    threading.Thread(target=clear_oldest_user_id, daemon=True).start()
