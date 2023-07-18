@@ -2,7 +2,8 @@ import aiosqlite, asyncio, time, threading
 from guilded import Color, Embed
 from guilded.ext import commands
 
-database_name = "vol_database.db"
+prefix = "!"
+database_name = "my_database.db"
 guilded_token = ""   # If you are planning to use secrets (or "os.environ['']"), replace >> "" << to os.environ['']
 virustotal_token = ""  # Same goes here
 
@@ -196,13 +197,48 @@ async def clear_oldest_user_id():
         await asyncio.sleep(300)
 
 
-client = commands.Bot(commands.when_mentioned_or(""), case_insensitive=False, help_command=None)
+client = commands.Bot(commands.when_mentioned_or(prefix), case_insensitive=False, help_command=None)
+
+cache_thread_count = 0  # DO NOT MODIFY
 
 def main():
-    pass
+    @client.event
+    async def on_ready():
+        await create_db()
+        # Prevent creating another thread when the bot went offline (Internet problem) and goes back online again
+        if cache_thread_count > 0:
+            pass
+        else:
+            threading.Thread(target=asyncio.run, args=(clear_oldest_user_id(),)).start()
+        print("SimpleGuildBot Client Is Online! {0.name} :: {0.id}".format(client.user))
 
+    @client.event()
+    async def on_disconnect():
+        print("SimpleGuildBot Client Is Offline")
+
+    @client.command(name="help", aliases=["h", "1"])
+    async def help_command(ctx, *, value=None):
+        help_embed = Embed(title="Help Command", description="Prefix = `{0}\n{0}Help <CATEGORY/COMMAND-NAME/NONE>\n{0}Help <CATEGORY> <COMMAND-NAME>\n`".format(prefix),color=Color.blue())
+        if value is None:
+            help_embed.add_field(name="Fun", value="A category for fun/entertainment commands.\nKeyword: conversation starters", inline=False)
+            help_embed.add_field(name="Utility", value="A category for utility commands.\nKeyword: useful tools", inline=False)
+            help_embed.add_field(name="Mod", value="A category for mod commands.\nKeyword: member management", inline=False)
+        else:
+            breakdown = value.lower().split()
+            # help_embed.add_field(name="Test", value=breakdown, inline=False)
+            if breakdown[0] in ["f", "fun", "1"]:
+                help_embed.add_field(name="", value="")
+            elif breakdown[0] in ["u", "util", "utils", "utility", "2"]:
+                help_embed.add_field(name="", value="")
+            elif breakdown[0] in ["m", "mod", "moderation", "3"]:
+                help_embed.add_field(name="", value="")
+            elif breakdown[0] == "sgb_dev":
+                help_embed.add_field(name="", value="")
+            else:
+                help_embed.add_field(name="Unknown category type", value=f"Type `{prefix}help` for more info.")
+        help_embed.set_footer(icon_url=ctx.author.avatar, text=f"{ctx.author.name} requested this command.")
+        await ctx.reply(embed=help_embed, silent=True)
 
 if __name__ == "__main__":
     main()
-    threading.Thread(target=clear_oldest_user_id, daemon=True).start()
     client.run(guilded_token)
