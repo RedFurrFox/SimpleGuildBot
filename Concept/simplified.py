@@ -227,18 +227,18 @@ def main():
             breakdown = value.lower().split()
             # help_embed.add_field(name="Test", value=breakdown, inline=False)
             if breakdown[0] in ["f", "fun", "1"]:
-                help_embed.add_field(name="Gaymeter", value="generate a random percentage of how gay that user is.")
-                help_embed.add_field(name="Lovemeter", value="generate a random percentage of how in love they are.")
+                help_embed.add_field(name="Gaymeter", value="generate a random percentage of how gay that user is.", inline=False)
+                help_embed.add_field(name="Lovemeter", value="generate a random percentage of how in love they are.", inline=False)
             elif breakdown[0] in ["u", "util", "utils", "utility", "2"]:
                 help_embed.add_field(name="URLScan", value="scan given link and return useful info if it is safe or not
-                ")
-                help_embed.add_field(name="QR", value="generate a qr code/image.")
+                ", inline=False)
+                help_embed.add_field(name="QR", value="generate a qr code/image.", inline=False)
             elif breakdown[0] in ["m", "mod", "moderation", "3"]:
-                help_embed.add_field(name="", value="")
+                help_embed.add_field(name="", value="", inline=False)
             elif breakdown[0] == "sgb_dev":
-                help_embed.add_field(name="", value="")
+                help_embed.add_field(name="", value="", inline=False)
             else:
-                help_embed.add_field(name="Unknown category type", value=f"Type `{prefix}help` for more info.")
+                help_embed.add_field(name="Unknown category type", value=f"Type `{prefix}help` for more info.", inline=False)
         help_embed.set_footer(icon_url=ctx.author.avatar, text=f"{ctx.author.name} requested this command.")
         await ctx.reply(embed=help_embed, silent=True)
 
