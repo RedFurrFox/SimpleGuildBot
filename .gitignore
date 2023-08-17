@@ -1,3 +1,9 @@
+*blklst_loader*
+*api*
+*.json
+*.db
 .idea
-Concept/note.txt
-Concept/*.db
+Concept/test/
+Concept/note*
+Concept/test*
+Concept/plan*

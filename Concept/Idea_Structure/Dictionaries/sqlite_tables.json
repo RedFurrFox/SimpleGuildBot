@@ -1,0 +1,49 @@
+[
+  {
+    "name": "blacklist",
+    "columns": [
+      "id INTEGER PRIMARY KEY",
+      "uid TEXT",
+      "name TEXT",
+      "date_when TEXT",
+      "reason TEXT"
+    ]
+  },
+  {
+    "name": "server_configs",
+    "columns": [
+      "id INTEGER PRIMARY KEY",
+      "server_id TEXT",
+      "log_channel TEXT",
+      "admin_role_id TEXT",
+      "antiraid_mode BOOLEAN",
+      "antiraid_hardened_mode BOOLEAN",
+      "lockdown_mod BOOLEAN",
+      "auto_lockdown BOOLEAN"
+    ]
+  },
+  {
+    "name": "server_join_cache",
+    "columns": [
+      "id INTEGER PRIMARY KEY",
+      "server_id TEXT",
+      "joiner_id TEXT"
+    ]
+  },
+  {
+    "name": "global_switch",
+    "columns": [
+      "id INTEGER PRIMARY KEY",
+      "help_c BOOLEAN",
+      "ping_c BOOLEAN"
+    ]
+  },
+  {
+    "name": "dialogs",
+    "columns": [
+      "id INTEGER PRIMARY KEY",
+      "dialog_type TEXT",
+      "dialog TEXT"
+    ]
+  }
+]

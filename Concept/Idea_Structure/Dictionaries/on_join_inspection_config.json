@@ -1,0 +1,12 @@
+[
+  {
+    "forbidden_names": {
+      "spam-bot": [
+        ""
+      ],
+      "others": [
+        ""
+      ]
+    }
+  }
+]

@@ -1,9 +1,12 @@
-import aiosqlite, asyncio, time, threading
+import aiosqlite, asyncio, json, threading
 from guilded import Color, Embed
 from guilded.ext import commands
 
 prefix = "!"
 database_name = "my_database.db"
+bot_owner_ids = [
+    ""
+]  # Manually add your UserID here to whoever uses this code to access and config your bot globally.
 guilded_token = ""   # If you are planning to use secrets (or "os.environ['']"), replace >> "" << to os.environ['']
 virustotal_token = ""  # Same goes here
 
@@ -12,55 +15,8 @@ async def create_db():
     Automatically create a database if the selected database is not found.
     :return:
     """
-    tables = [
-        {
-            'name': 'blacklist',
-            'columns': [
-                'id INTEGER PRIMARY KEY',
-                'uid TEXT',
-                'name TEXT',
-                'date_when TEXT',
-                'reason TEXT'
-            ]
-        },
-        {
-            'name': 'server_configs',
-            'columns': [
-                'id INTEGER PRIMARY KEY',
-                'server_id TEXT',
-                'log_channel TEXT',
-                'admin_role_id TEXT',
-                'antiraid_mode BOOLEAN',
-                'antiraid_hardened_mode BOOLEAN',
-                'lockdown_mod BOOLEAN',
-                'auto_lockdown BOOLEAN'
-            ]
-        },
-        {
-            'name': 'server_join_cache',
-            'columns': [
-                'id INTEGER PRIMARY KEY',
-                'server_id TEXT',
-                'joiner_id TEXT'
-            ]
-        },
-        {
-            'name': 'global_switch',
-            'columns': [
-                'id INTEGER PRIMARY KEY',
-                'help_c BOOLEAN',
-                'ping_c BOOLEAN'
-            ]
-        },
-        {
-            'name': 'dialogs',
-            'columns': [
-                'id INTEGER PRIMARY KEY',
-                'dialog_type TEXT',
-                'dialog TEXT'
-            ]
-        }
-    ]
+    with open(r"Dictionaries/sqlite_tables.json") as raw_tables:
+        tables = json.load(raw_tables)
 
     async with aiosqlite.connect(database_name) as db:
         for table in tables:
@@ -217,29 +173,48 @@ def main():
         print("SimpleGuildBot Client Is Offline")
 
     @client.command(name="help", aliases=["h", "1"])
-    async def help_command(ctx, *, value=None):
-        help_embed = Embed(title="Help Command", description="Prefix = `{0}\n{0}Help <CATEGORY/COMMAND-NAME/NONE>\n{0}Help <CATEGORY> <COMMAND-NAME>\n`".format(prefix),color=Color.blue())
-        if value is None:
-            help_embed.add_field(name="Fun", value="A category for fun/entertainment commands.\nKeyword: conversation starters", inline=False)
-            help_embed.add_field(name="Utility", value="A category for utility commands.\nKeyword: useful tools", inline=False)
-            help_embed.add_field(name="Mod", value="A category for mod commands.\nKeyword: member management", inline=False)
+    async def help_command(ctx, param1=None, param2=None):
+        with open(r"Dictionaries/help_layout.json") as raw_help_layout:
+            help_layout = json.load(raw_help_layout)
+
+        help_embed = Embed(title="Help Command", description="Prefix = `{0}Help <CATEGORY> <COMMAND-NAME>\n`".format(prefix),color=Color.blue())
+
+        if param1 is None:
+            for categories in help_layout:
+                if categories["public"]:
+                    help_embed.add_field(name=categories["name"], value=categories["defines"], inline=categories["inline"])
         else:
-            breakdown = value.lower().split()
+            if param2 is None:
+                aliases_cache = []
+                for categories in help_layout:
+                    for aliases in categories["cogs"]["aliases"]:
+                        aliases_cache.append(aliases)
+                if param2 in aliases_cache:
+
+            else:
+                pass
+            """breakdown = value.lower().split()
             # help_embed.add_field(name="Test", value=breakdown, inline=False)
             if breakdown[0] in ["f", "fun", "1"]:
-                help_embed.add_field(name="Gaymeter", value="generate a random percentage of how gay that user is.", inline=False)
-                help_embed.add_field(name="Lovemeter", value="generate a random percentage of how in love they are.", inline=False)
+                help_embed.add_field(name="GayMeter", value="generate a random percentage of how gay that user is.", inline=False)
+                help_embed.add_field(name="LoveMeter", value="generate a random percentage of how in love they are.", inline=False)
             elif breakdown[0] in ["u", "util", "utils", "utility", "2"]:
-                help_embed.add_field(name="URLScan", value="scan given link and return useful info if it is safe or not
-                ", inline=False)
+                help_embed.add_field(name="Help", value="Show this help page.", inline=False)
+                help_embed.add_field(name="Ping", value="Test this bot server latency.", inline=False)
+                help_embed.add_field(name="URLScan", value="scan given link and return useful info if it is safe or not.", inline=False)
                 help_embed.add_field(name="QR", value="generate a qr code/image.", inline=False)
             elif breakdown[0] in ["m", "mod", "moderation", "3"]:
-                help_embed.add_field(name="", value="", inline=False)
+                help_embed.add_field(name="Kick", value="Kick someone out of this current server.", inline=False)
+                help_embed.add_field(name="Ban", value="Ban someone out of this current server.", inline=False)
+                help_embed.add_field(name="Report", value="Report someone to be blacklisted.", inline=False)
+                help_embed.add_field(name="Config", value="Configure how will this bot functionwork on this current server.", inline=False)
             elif breakdown[0] == "sgb_dev":
-                help_embed.add_field(name="", value="", inline=False)
+                help_embed.add_field(name="GlobalSwitch", value="Enable or disable bot features.", inline=False)
+            elif len(breakdown) > 1:
+                pass
             else:
                 help_embed.add_field(name="Unknown category type", value=f"Type `{prefix}help` for more info.", inline=False)
-        help_embed.set_footer(icon_url=ctx.author.avatar, text=f"{ctx.author.name} requested this command.")
+        help_embed.set_footer(icon_url=ctx.author.avatar, text=f"{ctx.author.name} requested this command.")"""
         await ctx.reply(embed=help_embed, silent=True)
 
 if __name__ == "__main__":

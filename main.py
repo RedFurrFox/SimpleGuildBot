@@ -65,9 +65,9 @@ def main():
 	async def help_page(ctx, category=None):
 		if category is None:
 			h_embed = Embed(title="Help page", description="Here's my bot command categories:", colour=guilded.Colour.blue())
-			h_embed.add_field(name="Fun", value="List of bot entertainment commands.", inline=False)
-			h_embed.add_field(name="Utils", value="List of bot utility commands.", inline=False)
-			h_embed.add_field(name="Mod", value="List of bot moderation commands.", inline=False)
+			h_embed.add_field(name="Fun", value="List of bot entertainment cogs.", inline=False)
+			h_embed.add_field(name="Utils", value="List of bot utility cogs.", inline=False)
+			h_embed.add_field(name="Mod", value="List of bot moderation cogs.", inline=False)
 		else:
 			if category.lower() in ["f", "fu", "fun", "funs", "funny", "funn", "funi"]:
 				h_embed = Embed(title="Help page / Fun", colour=guilded.Colour.blue())
