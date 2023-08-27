@@ -54,9 +54,9 @@ def main():
 			b_user = compiledDB['security']['join-kick'][joiner.id]
 			webhook(f"**{compiledDB['language']['d_a4']}**\n**- Recorded Name:** {b_user['name']}\n**- UserID:** {joiner.id}\n**- Reason:** {b_user['reason']}\n\n**Auto-kick executed!**")
 		elif joiner.id in compiledDB["security"]["join-ban"]:
+			b_user = compiledDB['security']['join-ban'][joiner.id]
 			await asyncio.sleep(compiledDB["bot-config"]["security-timeout"])
 			await joiner.ban(f"Blacklisted User. Reason: {b_user['reason']}")
-			b_user = compiledDB['security']['join-ban'][joiner.id]
 			webhook(f"**{compiledDB['language']['d_a4']}**\n**- Recorded Name:** {b_user['name']}\n**- UserID:** {joiner.id}\n**- Reason:** {b_user['reason']}\n\n**Auto-ban executed!**")
 		else:
 			pass
@@ -65,9 +65,9 @@ def main():
 	async def help_page(ctx, category=None):
 		if category is None:
 			h_embed = Embed(title="Help page", description="Here's my bot command categories:", colour=guilded.Colour.blue())
-			h_embed.add_field(name="Fun", value="List of bot entertainment cogs.", inline=False)
-			h_embed.add_field(name="Utils", value="List of bot utility cogs.", inline=False)
-			h_embed.add_field(name="Mod", value="List of bot moderation cogs.", inline=False)
+			h_embed.add_field(name="Fun", value="List of bot entertainment commands.", inline=False)
+			h_embed.add_field(name="Utils", value="List of bot utility commands.", inline=False)
+			h_embed.add_field(name="Mod", value="List of bot moderation commands.", inline=False)
 		else:
 			if category.lower() in ["f", "fu", "fun", "funs", "funny", "funn", "funi"]:
 				h_embed = Embed(title="Help page / Fun", colour=guilded.Colour.blue())

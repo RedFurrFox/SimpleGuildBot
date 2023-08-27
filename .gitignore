@@ -3,6 +3,8 @@
 *.json
 *.db
 .idea
+old*/
+Old_Concept/
 Concept/test/
 Concept/note*
 Concept/test*
